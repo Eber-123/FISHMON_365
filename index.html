@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101820">
+  <meta name="description" content="FishMon 365 — Plataforma inteligente de monitoreo multiparámetro y multinivel de calidad del agua.">
+  <title>FishMon 365 | Monitoreo inteligente</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="#" aria-label="FishMon 365 inicio">
+        <span class="brand-mark"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M5 23c5-7 10-7 15 0s10 7 15 0M8 15c4-4 8-4 12 0s8 4 12 0" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/><circle cx="20" cy="29" r="2.3" fill="currentColor"/></svg></span>
+        <span><strong>FishMon <em>365</em></strong><small>WATER INTELLIGENCE</small></span>
+      </a>
+      <div class="sidebar-label">PLATAFORMA</div>
+      <nav class="nav-list" aria-label="Navegación principal">
+        <button class="nav-item active" data-view="dashboard"><span class="nav-icon">▦</span> Dashboard general</button>
+        <button class="nav-item" data-view="depth"><span class="nav-icon">⌁</span> Monitoreo por profundidad</button>
+        <button class="nav-item" data-view="alerts"><span class="nav-icon">♧</span> Alertas e historial <b class="nav-count" id="alertCount">0</b></button>
+        <button class="nav-item" data-view="system"><span class="nav-icon">⌘</span> Estado del sistema</button>
+      </nav>
+      <div class="sidebar-label sidebar-label-gap">DISPOSITIVO</div>
+      <div class="device-mini">
+        <div class="device-mini-top"><span class="live-dot"></span><strong>FM-01 · Boya IoT</strong></div>
+        <small id="sidebarConnection">Modo demostración</small>
+        <div class="battery-line"><span id="batteryBar"></span></div>
+        <div class="device-mini-foot"><span>Batería</span><strong id="batteryText">86%</strong></div>
+      </div>
+      <div class="sidebar-bottom">
+        <div class="sidebar-help"> <span class="help-icon">?</span><span><strong>Centro de ayuda</strong><small>Guía de monitoreo</small></span></div>
+        <div class="user-chip"><div class="avatar">FM</div><span><strong>Administrador</strong><small>Cuenta local</small></span><span class="user-more">•••</span></div>
+      </div>
+    </aside>
+
+    <main class="main-area">
+      <header class="topbar">
+        <button class="mobile-menu" id="mobileMenu" aria-label="Abrir menú">☰</button>
+        <div class="breadcrumb"><span>FishMon 365</span><b>/</b><strong id="breadcrumbCurrent">Dashboard general</strong></div>
+        <div class="topbar-right">
+          <span class="demo-pill"><span class="live-dot"></span> DATOS DE DEMOSTRACIÓN</span>
+          <span class="top-time" id="clock">--:--:--</span>
+          <button class="icon-button" id="themeToggle" title="Cambiar tema" aria-label="Cambiar tema">◐</button>
+          <button class="profile-button" title="Administrador">FM</button>
+        </div>
+      </header>
+
+      <section class="page-content">
+        <section class="page-heading">
+          <div>
+            <div class="eyebrow"><span class="eyebrow-line"></span> AQUACULTURE INTELLIGENCE SYSTEM</div>
+            <h1 id="pageTitle">Calidad del agua <span class="heading-dot">.</span></h1>
+            <p id="pageSubtitle">Supervisión inteligente de las condiciones del estanque en tiempo real.</p>
+          </div>
+          <div class="heading-actions">
+            <button class="button button-ghost" id="notificationButton">♧ <span>Activar alarmas</span></button><button class="button button-ghost" id="pauseButton">Ⅱ <span>Pausar simulación</span></button>
+            <button class="button button-yellow" id="exportButton">↓ <span>Exportar datos</span></button>
+          </div>
+        </section>
+
+        <section class="overview-strip">
+          <div class="overview-main">
+            <div class="overview-icon">⌁</div>
+            <div><small>ESTADO GENERAL DEL AGUA</small><strong id="overallStatus">Condiciones estables</strong><span id="overallDescription">Parámetros dentro de los rangos configurados</span></div>
+          </div>
+          <div class="overview-stat"><small>PROFUNDIDAD ACTIVA</small><strong id="activeDepthTop">1.50 <i>m</i></strong><span id="activeDepthName">Media agua</span></div>
+          <div class="overview-stat"><small>ÚLTIMA ACTUALIZACIÓN</small><strong id="lastUpdate">--:--:--</strong><span>Actualización automática</span></div>
+          <div class="overview-stat"><small>ALERTAS ACTIVAS</small><strong id="activeAlertsTop">0</strong><span id="alertStatusText">Sin alertas críticas</span></div>
+        </section>
+
+        <section class="view-panel active" id="view-dashboard">
+          <div class="section-toolbar">
+            <div><h2>Panel de monitoreo</h2><p>Indicadores principales de calidad del agua</p></div>
+            <div class="toolbar-controls">
+              <label class="compact-label" for="depthSelect">PROFUNDIDAD</label>
+              <select id="depthSelect" class="select-control"><option value="surface">Superficie</option><option value="middle" selected>Media agua</option><option value="bottom">Fondo</option></select>
+              <span class="refresh-state"><span class="live-dot"></span> <span id="refreshLabel">Actualizando</span></span>
+            </div>
+          </div>
+
+          <div class="metric-grid" id="metricGrid">
+            <article class="metric-card" data-metric="do"><div class="metric-head"><span class="metric-symbol oxygen">O₂</span><span class="status-badge good" id="status-do">Óptimo</span></div><div class="metric-name">Oxígeno disuelto</div><div class="metric-value"><strong id="value-do">7.4</strong><span>mg/L</span></div><div class="metric-meta">Rango de referencia <b id="range-do">6.0–8.5 mg/L</b></div><div class="metric-chart"><svg id="spark-do" viewBox="0 0 150 42" preserveAspectRatio="none"></svg></div><div class="metric-foot"><span id="trend-do">↗ +0.2 mg/L</span><span>Últimos registros</span></div></article>
+            <article class="metric-card" data-metric="temp"><div class="metric-head"><span class="metric-symbol temperature">°C</span><span class="status-badge good" id="status-temp">Óptimo</span></div><div class="metric-name">Temperatura</div><div class="metric-value"><strong id="value-temp">11.8</strong><span>°C</span></div><div class="metric-meta">Rango de referencia <b id="range-temp">9–14 °C</b></div><div class="metric-chart"><svg id="spark-temp" viewBox="0 0 150 42" preserveAspectRatio="none"></svg></div><div class="metric-foot"><span id="trend-temp">↗ +0.1 °C</span><span>Últimos registros</span></div></article>
+            <article class="metric-card" data-metric="ph"><div class="metric-head"><span class="metric-symbol ph">pH</span><span class="status-badge good" id="status-ph">Óptimo</span></div><div class="metric-name">Potencial de hidrógeno</div><div class="metric-value"><strong id="value-ph">7.1</strong><span>pH</span></div><div class="metric-meta">Rango de referencia <b id="range-ph">6.5–8.0</b></div><div class="metric-chart"><svg id="spark-ph" viewBox="0 0 150 42" preserveAspectRatio="none"></svg></div><div class="metric-foot"><span id="trend-ph">→ Estable</span><span>Últimos registros</span></div></article>
+            <article class="metric-card" data-metric="turbidity"><div class="metric-head"><span class="metric-symbol turbidity">◈</span><span class="status-badge good" id="status-turbidity">Óptimo</span></div><div class="metric-name">Turbidez</div><div class="metric-value"><strong id="value-turbidity">12</strong><span>NTU</span></div><div class="metric-meta">Rango de referencia <b id="range-turbidity">5–20 NTU</b></div><div class="metric-chart"><svg id="spark-turbidity" viewBox="0 0 150 42" preserveAspectRatio="none"></svg></div><div class="metric-foot"><span id="trend-turbidity">↘ −2 NTU</span><span>Últimos registros</span></div></article>
+            <article class="metric-card" data-metric="conductivity"><div class="metric-head"><span class="metric-symbol conductivity">ϟ</span><span class="status-badge good" id="status-conductivity">Óptimo</span></div><div class="metric-name">Conductividad</div><div class="metric-value"><strong id="value-conductivity">240</strong><span>μS/cm</span></div><div class="metric-meta">Rango de referencia <b id="range-conductivity">20–500 μS/cm</b></div><div class="metric-chart"><svg id="spark-conductivity" viewBox="0 0 150 42" preserveAspectRatio="none"></svg></div><div class="metric-foot"><span id="trend-conductivity">↗ +4 μS/cm</span><span>Últimos registros</span></div></article>
+          </div>
+
+          <div class="content-grid two-col">
+            <article class="panel chart-panel">
+              <div class="panel-heading"><div><h3>Tendencia de parámetros</h3><p>Comportamiento de las últimas lecturas</p></div><select id="trendMetric" class="select-control small-select"><option value="do">Oxígeno disuelto</option><option value="temp">Temperatura</option><option value="ph">pH</option><option value="turbidity">Turbidez</option><option value="conductivity">Conductividad</option></select></div>
+              <div class="chart-legend"><span><i class="legend-dot blue"></i><b id="trendLegend">Oxígeno disuelto</b></span><span class="legend-muted">Línea de medición</span></div>
+              <div class="large-chart-wrap"><svg id="mainChart" viewBox="0 0 720 230" preserveAspectRatio="none" role="img" aria-label="Gráfico de tendencia de mediciones"></svg></div>
+              <div class="chart-axis"><span>Hace 30 min</span><span>Hace 20 min</span><span>Hace 10 min</span><span>Ahora</span></div>
+            </article>
+            <article class="panel depth-panel">
+              <div class="panel-heading"><div><h3>Perfil de profundidad</h3><p>Posicionamiento automático del sensor</p></div><span class="tag-dark">FM-01</span></div>
+              <div class="depth-visual">
+                <div class="depth-water"><div class="water-shimmer"></div><div class="depth-line line-one"><span></span><b id="z1Label">0.30 m</b></div><div class="depth-line line-two active"><span></span><b id="z2Label">1.50 m</b></div><div class="depth-line line-three"><span></span><b id="z3Label">2.40 m</b></div><div class="buoy-art"><div class="antenna-art"></div><div class="buoy-top-art"></div><div class="buoy-body-art"></div><div class="sensor-cable"></div><div class="sensor-art"></div></div><div class="depth-scale"><span>0 m</span><span id="totalDepthLabel">3.00 m</span></div></div>
+                <div class="depth-legend"><span><i class="depth-dot"></i> Posición calculada</span><strong id="depthNow">1.50 m</strong></div>
+              </div>
+              <div class="depth-actions"><label for="quickDepth">Nivel de medición</label><select id="quickDepth" class="select-control"><option value="surface">Superficie · 10%</option><option value="middle" selected>Media agua · 50%</option><option value="bottom">Fondo · 80%</option></select></div>
+            </article>
+          </div>
+
+          <article class="panel table-panel">
+            <div class="panel-heading"><div><h3>Últimas mediciones</h3><p>Registro reciente de calidad del agua</p></div><button class="text-button" data-go="alerts">Ver historial completo →</button></div>
+            <div class="table-scroll"><table><thead><tr><th>HORA</th><th>PROFUNDIDAD</th><th>OXÍGENO</th><th>TEMPERATURA</th><th>pH</th><th>TURBIDEZ</th><th>CONDUCTIVIDAD</th><th>ESTADO</th></tr></thead><tbody id="recentTable"></tbody></table></div>
+          </article>
+        </section>
+
+        <section class="view-panel" id="view-depth">
+          <div class="section-toolbar"><div><h2>Comparación multinivel</h2><p>Análisis de las condiciones del agua en la columna de agua</p></div><div class="toolbar-controls"><label class="compact-label" for="totalDepth">PROFUNDIDAD TOTAL (m)</label><input class="number-control" type="number" id="totalDepth" min="0.5" max="100" step="0.1" value="3.0"><button class="button button-yellow button-small" id="calculateDepths">Calcular niveles</button></div></div>
+          <div class="depth-config-grid">
+            <article class="panel depth-config-card"><span class="config-index">01</span><div><small>SUPERFICIE</small><h3 id="calcZ1">0.30 m</h3><p>Margen superficial · 0.30 m</p></div><span class="config-marker"></span></article>
+            <article class="panel depth-config-card"><span class="config-index">02</span><div><small>MEDIA AGUA</small><h3 id="calcZ2">1.50 m</h3><p>50% de la profundidad total</p></div><span class="config-marker"></span></article>
+            <article class="panel depth-config-card"><span class="config-index">03</span><div><small>FONDO</small><h3 id="calcZ3">2.40 m</h3><p>80% de la profundidad total</p></div><span class="config-marker"></span></article>
+          </div>
+          <div class="panel comparison-panel"><div class="panel-heading"><div><h3>Comparación por parámetro</h3><p>Selecciona una variable para comparar los tres niveles</p></div><select id="compareMetric" class="select-control"><option value="do">Oxígeno disuelto</option><option value="temp">Temperatura</option><option value="ph">pH</option><option value="turbidity">Turbidez</option><option value="conductivity">Conductividad</option></select></div><div class="large-chart-wrap comparison-chart"><svg id="compareChart" viewBox="0 0 900 300" preserveAspectRatio="none"></svg></div><div class="comparison-legend"><span><i class="legend-dot blue"></i> Superficie</span><span><i class="legend-dot yellow"></i> Media agua</span><span><i class="legend-dot teal"></i> Fondo</span></div></div>
+          <article class="panel table-panel"><div class="panel-heading"><div><h3>Resumen de mediciones por profundidad</h3><p>Valores actuales de demostración</p></div></div><div class="table-scroll"><table><thead><tr><th>PROFUNDIDAD</th><th>POSICIÓN (m)</th><th>OXÍGENO (mg/L)</th><th>TEMP. (°C)</th><th>pH</th><th>TURBIDEZ (NTU)</th><th>CONDUCTIVIDAD (μS/cm)</th></tr></thead><tbody id="depthTable"></tbody></table></div></article>
+        </section>
+
+        <section class="view-panel" id="view-alerts">
+          <div class="section-toolbar"><div><h2>Centro de alertas</h2><p>Eventos detectados por los límites de referencia configurados</p></div><div class="toolbar-controls"><select id="alertFilter" class="select-control"><option value="all">Todas las alertas</option><option value="critical">Críticas</option><option value="warning">Advertencias</option><option value="normal">Registros normales</option></select><button class="button button-ghost button-small" id="clearAlerts">Limpiar historial</button></div></div>
+          <div class="alert-summary-grid"><div class="alert-summary"><span class="alert-summary-icon red">!</span><div><small>CRÍTICAS</small><strong id="criticalCount">0</strong></div></div><div class="alert-summary"><span class="alert-summary-icon amber">△</span><div><small>ADVERTENCIAS</small><strong id="warningCount">0</strong></div></div><div class="alert-summary"><span class="alert-summary-icon green">✓</span><div><small>REGISTROS NORMALES</small><strong id="normalCount">0</strong></div></div></div>
+          <article class="panel table-panel"><div class="panel-heading"><div><h3>Historial de eventos</h3><p>Las alertas se generan al cruzar los límites de referencia</p></div><span class="tag-dark" id="eventTotal">0 eventos</span></div><div id="alertList" class="alert-list"></div></article>
+          <article class="panel thresholds-panel"><div class="panel-heading"><div><h3>Límites de referencia</h3><p>Modifica los valores para probar el sistema de alarmas</p></div><span class="editable-label">EDITABLE</span></div><div class="threshold-grid" id="thresholdGrid"></div><p class="threshold-note">Los límites son configuraciones de demostración. Antes de utilizar el sistema en un criadero real, deben validarse con criterios técnicos y fuentes apropiadas para trucha arco iris.</p></article>
+        </section>
+
+        <section class="view-panel" id="view-system">
+          <div class="section-toolbar"><div><h2>Estado del sistema</h2><p>Supervisión de los módulos electrónicos y de comunicación</p></div><span class="connection-label"><span class="live-dot"></span> Simulación activa</span></div>
+          <div class="system-hero panel"><div class="system-hero-copy"><span class="eyebrow">FISHMON 365 · FM-01</span><h2>Unidad de monitoreo<br><em>multiparámetro</em></h2><p>Arquitectura conceptual de boya flotante y módulo sumergible móvil.</p><div class="system-chips"><span>ESP32 + LoRa</span><span>Arduino Nano</span><span>5 sensores</span></div></div><div class="system-photo"><img id="devicePhoto" alt="Diseño de la boya FishMon 365 amarilla y negra con sensor sumergible"></div></div>
+          <div class="system-card-grid">
+            <div class="panel system-card"><div class="system-card-icon">⌁</div><div><small>MÓDULO FLOTANTE</small><h3><span class="live-dot"></span> En línea</h3><p>Unidad de control y comunicación</p></div></div>
+            <div class="panel system-card"><div class="system-card-icon">▤</div><div><small>MÓDULO SUMERGIBLE</small><h3><span class="live-dot"></span> Disponible</h3><p>Unidad de sensado</p></div></div>
+            <div class="panel system-card"><div class="system-card-icon">⌁</div><div><small>COMUNICACIÓN LoRa</small><h3><span class="live-dot"></span> Conectada*</h3><p>Estado simulado · No es conexión física</p></div></div>
+            <div class="panel system-card"><div class="system-card-icon">ϟ</div><div><small>ALIMENTACIÓN</small><h3 id="systemBattery">86%</h3><p>Nivel de batería de demostración</p></div></div>
+          </div>
+          <div class="content-grid two-col"><article class="panel"><div class="panel-heading"><div><h3>Componentes principales</h3><p>Arquitectura del prototipo</p></div></div><div class="component-list"><div><b>01</b><span><strong>Arduino Nano ATmega328P</strong><small>Adquisición de datos de sensores</small></span><i class="component-ok">Conceptual</i></div><div><b>02</b><span><strong>ESP32 + LoRa</strong><small>Transmisión inalámbrica</small></span><i class="component-ok">Conceptual</i></div><div><b>03</b><span><strong>Motorreductor y encoder</strong><small>Posicionamiento vertical</small></span><i class="component-ok">Conceptual</i></div><div><b>04</b><span><strong>Panel solar y batería</strong><small>Alimentación autónoma</small></span><i class="component-ok">Conceptual</i></div></div></article><article class="panel"><div class="panel-heading"><div><h3>Parámetros del dispositivo</h3><p>Configuración local de la demostración</p></div></div><div class="device-settings"><label>Profundidad total del estanque (m)<input type="number" id="systemDepth" value="3.0" min="0.5" max="100" step="0.1"></label><label>Intervalo de actualización<select id="updateInterval"><option value="3">3 segundos</option><option value="5" selected>5 segundos</option><option value="10">10 segundos</option></select></label><button class="button button-yellow" id="saveSettings">Guardar configuración</button><small id="settingsMessage">Configuración local de demostración.</small></div></article></div>
+        </section>
+
+        <footer class="footer"><span>© 2026 FishMon 365 · Water Intelligence</span><span><i class="live-dot"></i> Plataforma en modo demostración</span><span>Datos ilustrativos · No usar para decisiones operativas</span></footer>
+      </section>
+    </main>
+  </div>
+
+  <div class="toast-stack" id="toastStack" aria-live="polite"></div>
+  <div class="alarm-overlay" id="alarmOverlay" aria-live="assertive"><div class="alarm-box"><div class="alarm-symbol">!</div><div><strong id="alarmTitle">Alerta de calidad del agua</strong><p id="alarmMessage">Se ha superado un límite de referencia.</p></div><button id="dismissAlarm" aria-label="Cerrar alerta">×</button></div></div>
+  <script src="app.js"></script>
+</body>
+</html>
